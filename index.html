@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
+    <title>💖 Feliz 1er mes Liliana · Interactivo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 40% 20%, #3d1e3a, #1a0c1a);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 12px;
+            margin: 0;
+            touch-action: manipulation;
+            /* mejora respuesta táctil */
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .global-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(20, 5, 20, 0.5);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 50px;
+            padding: 20px 16px 25px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.7), 0 0 0 1.5px rgba(255, 190, 210, 0.6), inset 0 0 35px rgba(255, 160, 190, 0.4);
+            border: 1px solid rgba(255, 210, 225, 0.6);
+            color: #fce4ec;
+            text-align: center;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            text-shadow: 0 0 20px #ff99cc, 0 0 8px #c94b7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            color: #ffecf0;
+        }
+
+        .lily-name {
+            background: linear-gradient(135deg, #ffe5f0, #ffb7c5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .badge {
+            background: rgba(230, 160, 190, 0.25);
+            border-radius: 40px;
+            padding: 10px 18px;
+            margin: 15px 5px;
+            display: inline-block;
+            font-size: 1.1rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid #eeaac0;
+            font-style: italic;
+        }
+
+        /* Contador */
+        .counter-panel {
+            background: rgba(30, 10, 25, 0.6);
+            border-radius: 70px;
+            padding: 15px 12px;
+            margin: 18px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid #e7a1b5;
+            font-weight: 300;
+        }
+
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 55px;
+        }
+
+        .time-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(to top, #ffcfdf, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px #ff80a5);
+        }
+
+        /* Secciones con scroll suave interno si hiciera falta */
+        .section-title {
+            font-size: 1.25rem;
+            margin: 23px 0 10px;
+            color: #f7c0d0;
+            letter-spacing: 1px;
+            border-bottom: 1px dashed #d47997;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        /* Poema interactivo deslizable */
+        .poem-card {
+            background: rgba(55, 25, 40, 0.5);
+            border-radius: 35px;
+            padding: 16px 18px;
+            margin: 15px 0 10px;
+            backdrop-filter: blur(12px);
+            border: 1px solid #c4829a;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: pan-y pinch-zoom;
+            /* permite scroll si texto largo */;
+        }
+
+        .poem-text {
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 15px 0 8px;
+        }
+
+        .btn {
+            background: rgba(200, 120, 145, 0.4);
+            border: 1.5px solid #f5b7cb;
+            color: #fff5f9;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 0.8px;
+            box-shadow: 0 5px 15px rgba(255, 105, 135, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            touch-action: manipulation;
+            background: #b15575;
+            border-color: #ffb7c5;
+        }
+
+        .btn:active {
+            transform: scale(0.94);
+            background: #d96f8c;
+            box-shadow: 0 0 25px #ff6f91;
+        }
+
+        /* juego corazones flotantes */
+        .hearts-playground {
+            background: rgba(25, 10, 20, 0.7);
+            border-radius: 35px;
+            padding: 18px 10px;
+            margin: 15px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            min-height: 90px;
+            backdrop-filter: blur(8px);
+            border: 1px solid #d4859e;
+            position: relative;
+        }
+
+        .floating-heart {
+            font-size: 2.8rem;
+            filter: drop-shadow(0 0 20px #ff3366);
+            transition: 0.15s;
+            display: inline-block;
+            animation: gentleFloat 2.5s infinite alternate ease-in-out;
+            cursor: pointer;
+        }
+
+        @keyframes gentleFloat {
+            0% {
+                transform: translateY(0px);
+            }
+            100% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .love-message-box {
+            font-size: 1.15rem;
+            margin: 8px 0;
+            color: #ffcad6;
+            min-height: 28px;
+        }
+
+        /* juego memoria / revelar */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 5px;
+            justify-items: center;
+        }
+
+        .memory-card {
+            background: #45263b;
+            border-radius: 20px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            backdrop-filter: blur(8px);
+            border: 2px solid #d48ca5;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+            background: rgba(70, 30, 45, 0.8);
+        }
+
+        .memory-card:active {
+            transform: scale(0.9);
+            background: #bb5e7a;
+        }
+
+        .signature-end {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            color: #f5b8ca;
+            border-top: 1px dashed rgba(255, 190, 200, 0.5);
+            padding-top: 15px;
+        }
+
+        /* ajustes pequeños móviles */
+        @media (max-width: 400px) {
+            .btn {
+                padding: 12px 18px;
+                font-size: 1rem;
+            }
+            .time-number {
+                font-size: 2rem;
+            }
+            .floating-heart {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="global-container">
+        <h1>
+            <span class="lily-name">Liliana</span>
+            <span>💞</span>
+        </h1>
+        <div class="badge">🌹 6 abril · 1 mes · 6 mayo 🌹</div>
+
+        <!-- CONTADOR DINÁMICO -->
+        <div class="counter-panel" id="counterPanel">
+            <div class="time-block"><span class="time-number" id="daysCount">30</span><span>días</span></div>
+            <div class="time-block"><span class="time-number" id="hoursCount">0</span><span>horas</span></div>
+            <div class="time-block"><span class="time-number" id="minutesCount">0</span><span>min</span></div>
+            <div class="time-block"><span class="time-number" id="secondsCount">0</span><span>seg</span></div>
+        </div>
+
+        <!-- POEMA DESLIZABLE / CAMBIO -->
+        <div class="section-title">✨ Poema para ti ✨</div>
+        <div class="poem-card" id="poemCard">
+            <div class="poem-text" id="poemDisplay">
+                Eres el sueño que despierta mi alma,<br>el latido extra que el corazón reclama.
+            </div>
+        </div>
+        <div class="btn-group">
+            <button class="btn" id="prevPoemBtn">◀ Anterior</button>
+            <button class="btn" id="nextPoemBtn">Siguiente ▶</button>
+            <button class="btn" id="randomPoemBtn">🎲 Sorpresa</button>
+        </div>
+
+        <!-- JUEGO DE CORAZONES TOCABLES -->
+        <div class="section-title">💗 Toca los corazones 💗</div>
+        <div class="hearts-playground" id="heartsContainer">
+            <!-- generados dinámicamente -->
+        </div>
+        <div class="love-message-box" id="loveMessage">¡Cada toque es un te amo!</div>
+        <button class="btn" id="refreshHeartsBtn">🔄 Nuevos corazones</button>
+
+        <!-- JUEGO DE MEMORIA / DESTAPA AMOR -->
+        <div class="section-title">🧠 Destapa el amor</div>
+        <div class="memory-grid" id="memoryGrid">
+            <!-- cartas generadas con js -->
+        </div>
+        <div class="love-message-box" id="memoryMessage">Toca una carta para revelar un mensaje</div>
+        <button class="btn" id="resetMemoryBtn">🌀 Reiniciar memoria</button>
+
+        <div class="signature-end">
+            💌 Quiero más meses junto a ti, Liliana 💌
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // ---- CONFIGURACIÓN FECHA INICIO: 6 abril 2026 ----
+            const startDate = new Date(2026, 3, 6); // mes 3 = abril
+            startDate.setHours(0, 0, 0, 0);
+
+            // ---------- CONTADOR ----------
+            const daysSpan = document.getElementById('daysCount');
+            const hoursSpan = document.getElementById('hoursCount');
+            const minutesSpan = document.getElementById('minutesCount');
+            const secondsSpan = document.getElementById('secondsCount');
+
+            function updateCounter() {
+                const now = new Date();
+                const diff = now - startDate;
+                if (diff < 0) {
+                    daysSpan.textContent = '0';
+                    hoursSpan.textContent = '0';
+                    minutesSpan.textContent = '0';
+                    secondsSpan.textContent = '0';
+                    return;
+                }
+                const totalSec = Math.floor(diff / 1000);
+                const d = Math.floor(totalSec / 86400);
+                const h = Math.floor((totalSec % 86400) / 3600);
+                const m = Math.floor((totalSec % 3600) / 60);
+                const s = totalSec % 60;
+                daysSpan.textContent = d;
+                hoursSpan.textContent = h;
+                minutesSpan.textContent = m;
+                secondsSpan.textContent = s;
+            }
+            updateCounter();
+            const counterInterval = setInterval(updateCounter, 1000);
+
+            // ---------- POEMAS (más poemas) ----------
+            const poemsArray = [
+                "✨ Liliana, un mes de tu esencia,<br>cada día contigo es pura magia.<br>Eres el verso que siempre soñé,<br>la melodía que me hace vibrar.",
+                "🌙 Desde el 6 de abril, mi universo tiene tu nombre.<br>Liliana, iluminas cada rincón,<br>contigo quiero más meses, más vida,<br>y un amor que nunca se esconde.",
+                "💫 Un mes siendo tuyo, y quiero más.<br>Liliana, eres mi paz y mi hogar.<br>En tus ojos encuentro el mañana,<br>y en tus manos todo mi lugar.",
+                "🌸 Liliana, primer mes y parece eterno,<br>porque a tu lado el tiempo es tierno.<br>Prometo abrazarte en cada despertar,<br>y amarte sin pausa, sin dudar.",
+                "🕊️ Mi niña, hoy celebramos 30 días de nosotros.<br>Liliana, eres poesía y alboroto.<br>Quiero más meses, más risas, más locura,<br>siendo tu refugio y tu dulzura.",
+                "💌 Primer mes contigo, Liliana hermosa,<br>eres la flor que en mi pecho reposa.<br>Cada segundo a tu lado es un regalo,<br>y te elijo hoy y siempre, sin reparo.",
+                "🌷 Un mes de tu voz, de tu mirada,<br>Liliana, contigo no me falta nada.<br>Eres el sueño que se volvió verdad,<br>mi compañera, mi felicidad.",
+                "🌟 Liliana, un mes y siento que te quiero más,<br>como el río busca el mar, yo tu paz.<br>Sigamos sumando momentos,<br>y que nuestro amor sea eterno."
+            ];
+            let currentPoemIndex = 0;
+            const poemDisplay = document.getElementById('poemDisplay');
+
+            function setPoem(index) {
+                if (index < 0) index = poemsArray.length - 1;
+                if (index >= poemsArray.length) index = 0;
+                currentPoemIndex = index;
+                poemDisplay.innerHTML = poemsArray[currentPoemIndex];
+            }
+
+            document.getElementById('prevPoemBtn').addEventListener('click', () => {
+                setPoem(currentPoemIndex - 1);
+            });
+            document.getElementById('nextPoemBtn').addEventListener('click', () => {
+                setPoem(currentPoemIndex + 1);
+            });
+            document.getElementById('randomPoemBtn').addEventListener('click', () => {
+                let newIdx = Math.floor(Math.random() * poemsArray.length);
+                while (newIdx === currentPoemIndex && poemsArray.length > 1) {
+                    newIdx = Math.floor(Math.random() * poemsArray.length);
+                }
+                setPoem(newIdx);
+            });
+            setPoem(0);
+
+            // ---------- CORAZONES FLOTANTES INTERACTIVOS ----------
+            const heartsContainer = document.getElementById('heartsContainer');
+            const loveMessage = document.getElementById('loveMessage');
+            const heartEmojis = ['💖', '💘', '💝', '💗', '💓', '💞', '💕', '❤️‍🔥', '🫀', '🌸💗', '💟'];
+            const lovePhrases = [
+                '¡Eres mi todo, Liliana!', 'Mi corazón es tuyo 💘', 'Un mes y te amo más 💗',
+                'Eres magia pura ✨', 'Liliana, mi persona favorita 🌷', 'Cada latido dice tu nombre 💓',
+                'Contigo siempre quiero estar 💞', 'Mi primer mes de muchos 💖', 'Eres hermosa, Liliana 💝',
+                'Tú y yo, infinito 💕', 'Me haces tan feliz 🌸', 'Por muchos meses más 💎'
+            ];
+
+            function renderHearts() {
+                heartsContainer.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const randomHeart = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    const heartSpan = document.createElement('span');
+                    heartSpan.className = 'floating-heart';
+                    heartSpan.textContent = randomHeart;
+                    heartSpan.setAttribute('data-heart', 'true');
+                    heartSpan.addEventListener('click', function (e) {
+                        const msg = lovePhrases[Math.floor(Math.random() * lovePhrases.length)];
+                        loveMessage.textContent = msg;
+                        loveMessage.style.transform = 'scale(1.1)';
+                        loveMessage.style.color = '#ffb7c5';
+                        setTimeout(() => {
+                            loveMessage.style.transform = 'scale(1)';
+                            loveMessage.style.color = '#ffcad6';
+                        }, 200);
+                        // Efecto visual corazón
+                        e.target.textContent = '❤️‍🔥';
+                        e.target.style.transform = 'scale(1.45)';
+                        setTimeout(() => {
+                            e.target.textContent = randomHeart;
+                            e.target.style.transform = '';
+                        }, 220);
+                    });
+                    heartsContainer.appendChild(heartSpan);
+                }
+            }
+            document.getElementById('refreshHeartsBtn').addEventListener('click', () => {
+                renderHearts();
+                loveMessage.textContent = '✨ Nuevos corazones para ti ✨';
+            });
+            renderHearts();
+
+            // ---------- JUEGO DE MEMORIA / DESTAPA AMOR ----------
+            const memoryGrid = document.getElementById('memoryGrid');
+            const memoryMessage = document.getElementById('memoryMessage');
+            // Mensajes ocultos detrás de las cartas
+            const hiddenMessages = [
+                '💖 Liliana', '🌹 Amor', '💞 Juntos', '✨ Magia', '🌸 Bella', '💘 Eres tú',
+                '🕊️ Paz', '💗 Mi vida', '🌟 Estrella'
+            ];
+            let memoryCards = [];
+            let revealed = [];
+
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function buildMemory() {
+                memoryCards = shuffleArray([...hiddenMessages]);
+                revealed = new Array(memoryCards.length).fill(false);
+                renderMemoryGrid();
+            }
+
+            function renderMemoryGrid() {
+                memoryGrid.innerHTML = '';
+                memoryCards.forEach((msg, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.setAttribute('data-index', index);
+                    card.textContent = revealed[index] ? msg : '❓';
+                    card.style.background = revealed[index] ? '#a53f60' : '#45263b';
+                    card.addEventListener('click', () => {
+                        if (!revealed[index]) {
+                            revealed[index] = true;
+                            card.textContent = msg;
+                            card.style.background = '#a53f60';
+                            card.style.transform = 'scale(1.05)';
+                            setTimeout(() => { card.style.transform = ''; }, 150);
+                            memoryMessage.textContent = `💌 ${msg} te ama 💌`;
+                            // Verificar si todos están revelados
+                            if (revealed.every(v => v === true)) {
+                                memoryMessage.textContent = '🌟 ¡Descubriste todo mi amor! ¡Te amo Liliana! 🌟';
+                            }
+                        } else {
+                            // Ya revelado, muestra mensaje igualmente
+                            memoryMessage.textContent = `Ya lo sabes: ${msg} 💕`;
+                        }
+                    });
+                    memoryGrid.appendChild(card);
+                });
+            }
+
+            document.getElementById('resetMemoryBtn').addEventListener('click', () => {
+                buildMemory();
+                memoryMessage.textContent = 'Toca una carta para revelar un mensaje';
+            });
+
+            buildMemory();
+
+            // Limpiar intervalos al salir
+            window.addEventListener('beforeunload', () => {
+                clearInterval(counterInterval);
+            });
+
+            console.log('💖 Para Liliana, con amor interactivo. ¡Feliz primer mes!');
+        })();
+    </script>
+</body>
+</html>
